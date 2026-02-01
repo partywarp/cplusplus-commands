@@ -1,4 +1,4 @@
-#include <check.hpp>
+#include "check.hpp"
 std::string collect(std::istream &is)
 {
 	std::string contents, current_token;

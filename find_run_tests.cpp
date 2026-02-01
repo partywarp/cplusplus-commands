@@ -7,9 +7,9 @@
 #include <atomic>
 #include <fstream>
 #include <fcntl.h>
-#include <check.hpp>
 #include <cstdlib>
 #include <glob.h>
+#include "check.hpp"
 static std::atomic<pid_t> child_pid;
 static std::atomic<bool> timed_out;
 void handle_alarm(int)
@@ -46,7 +46,7 @@ void launch_test(char *target_file, char *test_file)
 		}
 		dup2(test, STDIN_FILENO);
 		close(test);
-		execl(target_file, NULL);
+		execl(target_file, target_file, NULL);
 		std::perror("execl");
 		std::exit(EXIT_FAILURE);
 	}

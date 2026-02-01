@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 4.2)
 project(AllSolutions)
 
 add_library(check_solution)
-target_compile_features(check_solution PRIVATE cxx_std_20)
 target_sources(check_solution
 	PRIVATE
 		check.cpp
@@ -12,13 +11,12 @@ target_sources(check_solution
 			check.hpp
 )
 add_executable(find_run_tests find_run_tests.cpp)
-target_compile_features(find_run_tests PRIVATE cxx_std_20)
 target_link_libraries(find_run_tests
 	PRIVATE
 		check_solution
 )
 
-add_compile_options(-g -fmax-errors=1 -pipe -std=c++17)
+add_compile_options(-g -fmax-errors=1 -pipe -std=c++17 -Wall)
 link_libraries(m)
 function(add_lldb TARGET_NAME)
 	add_custom_target("${TARGET_NAME}.lldb"
