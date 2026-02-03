@@ -1,5 +1,9 @@
 {
 	"cmake.generator": "Ninja",
 	"cmake.buildDirectory": "${workspaceFolder}/.build",
-	"cmake.configureOnOpen": false
+	"cmake.configureOnOpen": false,
+	"clangd.arguments": [
+		"--query-driver=/opt/homebrew/opt/gcc/bin/g++-*"
+	],
+	"clangd.path": "/opt/homebrew/opt/llvm/bin/clangd",
 }

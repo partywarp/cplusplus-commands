@@ -69,7 +69,7 @@ void launch_test(char *target_file, char *test_file)
 	if (check_file) {
 		fputs("\n", stderr);
 		auto process_buf = std::make_unique<__gnu_cxx::stdio_filebuf<char>>(fd[0], std::ios_base::in);
-		auto is = std::istream(process_buf.release());
+		std::istream is(process_buf.release());
 		if (!check(is, check_file)) {
 			fprintf(stderr, "-- %s - wrong answer\n", test_file);
 			return;
