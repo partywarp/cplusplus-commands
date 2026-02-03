@@ -1,7 +1,7 @@
 {
 	"tasks": {
 		"add": {
-			"command": "grep -qxF \"add_subdirectory($INIT_CWD)\" CMakeLists.txt || echo \"add_subdirectory($INIT_CWD)\" >> CMakeLists.txt",
+			"command": "RELATIVE_DIR=\"$(sh -c 'echo ${INIT_CWD#$PWD\\/}')\" ; grep -qxF \"add_subdirectory($RELATIVE_DIR)\" CMakeLists.txt || echo \"add_subdirectory($RELATIVE_DIR)\" >> CMakeLists.txt",
 			"description": "add a project"
 		},
 		"lldb": {
