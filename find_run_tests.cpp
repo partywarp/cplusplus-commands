@@ -2,7 +2,6 @@
 #include <unistd.h>
 #include <cstdio>
 #include <ext/stdio_filebuf.h>
-#include <memory>
 #include <csignal>
 #include <atomic>
 #include <fstream>
@@ -69,15 +68,17 @@ void launch_test(char *target_file, char *test_file)
 	}
 	if (check_file) {
 		fputs("\n", stderr);
-		auto process_buf =
-			std::make_unique<__gnu_cxx::stdio_filebuf<char> >(
-				fd[0], std::ios_base::in);
-		std::istream is(process_buf.release());
+		__gnu_cxx::stdio_filebuf<char> process_buf(fd[0],
+							   std::ios_base::in);
+		std::istream is(&process_buf);
 		if (!check(is, check_file)) {
 			fprintf(stderr, "-- %s - wrong answer\n", test_file);
 			return;
 		}
-	} // don't send SIGPIPE
+	} else {
+		// useless, might as well
+		close(fd[0]);
+	}
 	fprintf(stderr, "-- %s - accepted\n", test_file);
 }
 int main(int argc, char *argv[])
