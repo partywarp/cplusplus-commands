@@ -58,28 +58,28 @@ void launch_test(char *target_file, char *test_file)
 	waitpid(pid, &status, 0);
 	alarm(0);
 	if (timed_out.load()) {
-		fprintf(stderr, "-- %s - time limit exceeded\n", test_file);
+		std::fprintf(stderr, "-- %s - time limit exceeded\n", test_file);
 		return;
 	}
 	if (!WIFEXITED(status)) {
-		fprintf(stderr, "-- %s - runtime error (#%d)\n", test_file,
+		std::fprintf(stderr, "-- %s - runtime error (#%d)\n", test_file,
 			WTERMSIG(status));
 		return;
 	}
 	if (check_file) {
-		fputs("\n", stderr);
+		std::fputs("\n", stderr);
 		__gnu_cxx::stdio_filebuf<char> process_buf(fd[0],
 							   std::ios_base::in);
 		std::istream is(&process_buf);
 		if (!check(is, check_file)) {
-			fprintf(stderr, "-- %s - wrong answer\n", test_file);
+			std::fprintf(stderr, "-- %s - wrong answer\n", test_file);
 			return;
 		}
 	} else {
 		// useless, might as well
 		close(fd[0]);
 	}
-	fprintf(stderr, "-- %s - accepted\n", test_file);
+	std::fprintf(stderr, "-- %s - accepted\n", test_file);
 }
 int main(int argc, char *argv[])
 {
