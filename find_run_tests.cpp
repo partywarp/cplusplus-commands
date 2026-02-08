@@ -41,7 +41,7 @@ void launch_test(char *target_file, char *test_file)
 		int test = open(test_file, O_RDONLY);
 		if (test == -1) {
 			std::perror("open");
-			return;
+			std::exit(EXIT_FAILURE);
 		}
 		dup2(test, STDIN_FILENO);
 		close(test);
@@ -92,4 +92,5 @@ int main(int argc, char *argv[])
 	for (int i = 0; i < globbuf.gl_pathc; ++i) {
 		launch_test(test_target, globbuf.gl_pathv[i]);
 	}
+	globfree(&globbuf);
 }
