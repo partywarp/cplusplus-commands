@@ -1,22 +1,18 @@
 cmake_minimum_required(VERSION 4.2)
 project(AllSolutions)
+set(CMAKE_CXX_STANDARD 17)
 
 add_library(check_solution)
 target_sources(check_solution
-	PRIVATE
-		check.cpp
-	PUBLIC
-		FILE_SET HEADERS
-		FILES
-			check.hpp
+	PRIVATE check.cpp
+	PUBLIC FILE_SET HEADERS FILES check.hpp
 )
 add_executable(find_run_tests find_run_tests.cpp)
-target_link_libraries(find_run_tests
-	PRIVATE
-		check_solution
-)
+target_link_libraries(find_run_tests PRIVATE check_solution)
 
-add_compile_options(-g -fmax-errors=1 -pipe -std=c++17 -Wall)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+add_compile_options(-fmax-errors=1 -Wall -pipe -g)
 link_libraries(m)
 function(add_lldb TARGET_NAME)
 	add_custom_target("${TARGET_NAME}.lldb"
@@ -52,3 +48,4 @@ add_subdirectory(prod-1-mod-n)
 add_subdirectory(power-products)
 add_subdirectory(diluc-and-kaeya)
 add_subdirectory(test-with-cerr)
+add_subdirectory(common-divisors)

@@ -63,12 +63,15 @@ void launch_test(char *target_file, char *test_file)
 		return;
 	}
 	if (!WIFEXITED(status)) {
-		fprintf(stderr, "-- %s - runtime error (#%d)\n", test_file, WTERMSIG(status));
+		fprintf(stderr, "-- %s - runtime error (#%d)\n", test_file,
+			WTERMSIG(status));
 		return;
 	}
 	if (check_file) {
 		fputs("\n", stderr);
-		auto process_buf = std::make_unique<__gnu_cxx::stdio_filebuf<char>>(fd[0], std::ios_base::in);
+		auto process_buf =
+			std::make_unique<__gnu_cxx::stdio_filebuf<char> >(
+				fd[0], std::ios_base::in);
 		std::istream is(process_buf.release());
 		if (!check(is, check_file)) {
 			fprintf(stderr, "-- %s - wrong answer\n", test_file);

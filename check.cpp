@@ -1,3 +1,5 @@
+#include <string>
+#include <cstdio>
 #include "check.hpp"
 std::string collect(std::istream &is)
 {
@@ -8,15 +10,14 @@ std::string collect(std::istream &is)
 	}
 	return contents;
 }
-bool check(std::istream& real, std::istream& expect)
+bool check(std::istream &real, std::istream &expect)
 {
 	bool prefix_matched = false;
 	std::string last_expect_token;
 	std::string last_recv_token;
 	while (true) {
 		std::string expected, received;
-		if ((expect >> expected).fail() !=
-			    (real >> received).fail() ||
+		if ((expect >> expected).fail() != (real >> received).fail() ||
 		    !real.fail() && expected != received) {
 			last_expect_token = expected;
 			last_recv_token = received;
