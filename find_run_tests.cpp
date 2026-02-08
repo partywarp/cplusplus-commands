@@ -7,6 +7,7 @@
 #include <fstream>
 #include <fcntl.h>
 #include <cstdlib>
+#include <cstring>
 #include <glob.h>
 #include "check.hpp"
 static std::atomic<pid_t> child_pid;
@@ -58,12 +59,13 @@ void launch_test(char *target_file, char *test_file)
 	waitpid(pid, &status, 0);
 	alarm(0);
 	if (timed_out.load()) {
-		std::fprintf(stderr, "-- %s - time limit exceeded\n", test_file);
+		std::fprintf(stderr, "-- %s - time limit exceeded\n",
+			     test_file);
 		return;
 	}
 	if (!WIFEXITED(status)) {
-		std::fprintf(stderr, "-- %s - runtime error (#%d)\n", test_file,
-			WTERMSIG(status));
+		std::fprintf(stderr, "-- %s - runtime error (%s)\n", test_file,
+			     strsignal(WTERMSIG(status)));
 		return;
 	}
 	if (check_file) {
@@ -72,7 +74,8 @@ void launch_test(char *target_file, char *test_file)
 							   std::ios_base::in);
 		std::istream is(&process_buf);
 		if (!check(is, check_file)) {
-			std::fprintf(stderr, "-- %s - wrong answer\n", test_file);
+			std::fprintf(stderr, "-- %s - wrong answer\n",
+				     test_file);
 			return;
 		}
 	} else {
