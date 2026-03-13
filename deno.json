@@ -15,6 +15,14 @@
 		"cmake": {
 			"command": "cmake -G Ninja -B .build -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE",
 			"description": "re-run configure (you may need this for intellisense)"
+		},
+		"write_tests": {
+			"command": "cd \"$INIT_CWD\" ; awk 'BEGIN{n=1;fn=sprintf(\"%d_test.txt\",n)}$0==\"---\"{n++;fn=sprintf(\"%d_test.txt\",n);next}{print > fn}' test_cases.txt",
+			"description": "split the unified test file test_cases.txt into cases"
+		},
+		"to_npm": {
+			"command": "jq '{name:\"cplus-plus-commands\", scripts:(.tasks|with_entries(.value=.value.command))}' deno.json > package.json",
+			"description": "make these commands compatible with npm run-script"
 		}
 	}
 }
