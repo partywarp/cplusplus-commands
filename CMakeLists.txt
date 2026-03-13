@@ -9,34 +9,36 @@ target_sources(check_solution
 )
 add_executable(find_run_tests find_run_tests.cpp)
 target_link_libraries(find_run_tests PRIVATE check_solution)
+add_library(freopen_shim SHARED no_freopen.c)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 add_compile_options(-fmax-errors=1 -Wall -pipe -g)
 link_libraries(m)
 function(add_lldb TARGET_NAME)
-	add_custom_target("${TARGET_NAME}.lldb"
-		COMMAND tmux splitw -h lldb $<TARGET_FILE:${TARGET_NAME}>
-		DEPENDS ${TARGET_NAME}
-		WORKING_DIRECTORY $<TARGET_PROPERTY:${TARGET_NAME},SOURCE_DIR>
-	)
+add_custom_target("${TARGET_NAME}.lldb"
+	COMMAND tmux splitw -h lldb $<TARGET_FILE:${TARGET_NAME}>
+	DEPENDS ${TARGET_NAME}
+	WORKING_DIRECTORY $<TARGET_PROPERTY:${TARGET_NAME},SOURCE_DIR>
+)
 endfunction()
 function(add_custom_test TARGET_NAME)
-	add_custom_target("${TARGET_NAME}.test"
-		COMMAND $<TARGET_FILE:find_run_tests>
-			$<TARGET_FILE:${TARGET_NAME}>
-		DEPENDS ${TARGET_NAME} find_run_tests
-		WORKING_DIRECTORY $<TARGET_PROPERTY:${TARGET_NAME},SOURCE_DIR>
-		USES_TERMINAL
-	)
+add_custom_target("${TARGET_NAME}.test"
+	COMMAND $<TARGET_FILE:find_run_tests>
+		$<TARGET_FILE:${TARGET_NAME}>
+	DEPENDS ${TARGET_NAME} find_run_tests
+	WORKING_DIRECTORY $<TARGET_PROPERTY:${TARGET_NAME},SOURCE_DIR>
+	USES_TERMINAL
+)
 endfunction()
 function(add_solution TARGET_NAME)
-	add_executable(${TARGET_NAME} ${ARGN})
-	add_custom_test(${TARGET_NAME})
-	add_lldb(${TARGET_NAME})
+add_executable(${TARGET_NAME} ${ARGN})
+target_link_libraries(${TARGET_NAME} PRIVATE freopen_shim)
+add_custom_test(${TARGET_NAME})
+add_lldb(${TARGET_NAME})
 endfunction()
 function(solve TARGET_NAME)
-	add_solution(${TARGET_NAME} solution.cpp)
+add_solution(${TARGET_NAME} solution.cpp)
 endfunction()
 
 add_subdirectory(permutation-rounds)
@@ -49,3 +51,38 @@ add_subdirectory(power-products)
 add_subdirectory(diluc-and-kaeya)
 add_subdirectory(test-with-cerr)
 add_subdirectory(common-divisors)
+add_subdirectory(orac-and-lcm)
+add_subdirectory(maximum-of-gcds)
+add_subdirectory(sum-of-divisors)
+add_subdirectory(lcm-sum)
+add_subdirectory(binary-exp)
+add_subdirectory(santas-bot)
+add_subdirectory(frog-1)
+add_subdirectory(mortal-kombat-tower)
+add_subdirectory(minimising-coins)
+add_subdirectory(coin-combinations-1)
+add_subdirectory(coin-combinations-2)
+add_subdirectory(book-shop)
+add_subdirectory(subset-sum-queries)
+add_subdirectory(dice-combinations)
+add_subdirectory(money-sums)
+add_subdirectory(two-sets-2)
+add_subdirectory(ojuz-knapsack)
+add_subdirectory(fruit-feast)
+add_subdirectory(round-subset)
+add_subdirectory(coding-company)
+add_subdirectory(grid-paths-1)
+add_subdirectory(array-description)
+add_subdirectory(edit-distance)
+add_subdirectory(cow-checklist)
+add_subdirectory(radio-contact)
+add_subdirectory(why-cow-crossed-the-road-2)
+add_subdirectory(minimal-grid-path)
+add_subdirectory(pair-program)
+add_subdirectory(increasing-subsequence)
+add_subdirectory(increasing-frequency)
+add_subdirectory(hoof-paper-scissors)
+add_subdirectory(time-is-money)
+add_subdirectory(teamwork)
+add_subdirectory(phidias)
+add_subdirectory(snakes)
