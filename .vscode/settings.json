@@ -6,7 +6,7 @@
 		"--query-driver=/opt/homebrew/opt/gcc/bin/g++-*",
 		"--query-driver=/opt/homebrew/opt/gcc/bin/gcc-*"
 	],
-	"clangd.path": "/opt/homebrew/opt/llvm/bin/clangd",
+	// "clangd.path": "/opt/homebrew/opt/llvm/bin/clangd",
 	"explorer.excludeGitIgnore": true,
 	"files.associations": {
 		".clangd": "yaml"
