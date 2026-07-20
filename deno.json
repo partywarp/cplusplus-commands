@@ -5,11 +5,11 @@
 			"description": "add a project"
 		},
 		"lldb": {
-			"command": "cmake --build .build -t \"$(perl -ne 'print \"$1.lldb\" if /(?:add_solution|solve)\\(([^\\s\\)]*)/' \"$INIT_CWD/CMakeLists.txt\")\"",
+			"command": "perl -ne 'exec \"cmake\", \"--build\", \".build\", \"-t\", \"$1.lldb\" if /(?:add_solution|solve)\\(([^\\s\\)]*)/' \"$INIT_CWD/CMakeLists.txt\"",
 			"description": "attach lldb"
 		},
 		"test": {
-			"command": "cmake --build .build -t \"$(perl -ne 'print \"$1.test\" if /(?:add_solution|solve)\\(([^\\s\\)]*)/' \"$INIT_CWD/CMakeLists.txt\")\"",
+			"command": "perl -ne 'exec \"cmake\", \"--build\", \".build\", \"-t\", \"$1.test\" if /(?:add_solution|solve)\\(([^\\s\\)]*)/' \"$INIT_CWD/CMakeLists.txt\"",
 			"description": "run tests"
 		},
 		"cmake": {
