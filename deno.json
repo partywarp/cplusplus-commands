@@ -1,9 +1,5 @@
 {
 	"tasks": {
-		"add": {
-			"command": "RELATIVE_DIR=\"$(sh -c 'echo ${INIT_CWD#$PWD\\/}')\" ; grep -qxF \"add_subdirectory($RELATIVE_DIR)\" CMakeLists.txt || echo \"add_subdirectory($RELATIVE_DIR)\" >> CMakeLists.txt",
-			"description": "add a project"
-		},
 		"lldb": {
 			"command": "perl -ne 'exec \"cmake\", \"--build\", \".build\", \"-t\", \"$1.lldb\" if /(?:add_solution|solve)\\(([^\\s\\)]*)/' \"$INIT_CWD/CMakeLists.txt\"",
 			"description": "attach lldb"

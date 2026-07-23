@@ -1,9 +1,8 @@
 {
   "name": "cplus-plus-commands",
   "scripts": {
-    "add": "RELATIVE_DIR=\"$(sh -c 'echo ${INIT_CWD#$PWD\\/}')\" ; grep -qxF \"add_subdirectory($RELATIVE_DIR)\" CMakeLists.txt || echo \"add_subdirectory($RELATIVE_DIR)\" >> CMakeLists.txt",
-    "lldb": "cmake --build .build -t \"$(perl -ne 'print \"$1.lldb\" if /(?:add_solution|solve)\\(([^\\s\\)]*)/' \"$INIT_CWD/CMakeLists.txt\")\"",
-    "test": "cmake --build .build -t \"$(perl -ne 'print \"$1.test\" if /(?:add_solution|solve)\\(([^\\s\\)]*)/' \"$INIT_CWD/CMakeLists.txt\")\"",
+    "lldb": "perl -ne 'exec \"cmake\", \"--build\", \".build\", \"-t\", \"$1.lldb\" if /(?:add_solution|solve)\\(([^\\s\\)]*)/' \"$INIT_CWD/CMakeLists.txt\"",
+    "test": "perl -ne 'exec \"cmake\", \"--build\", \".build\", \"-t\", \"$1.test\" if /(?:add_solution|solve)\\(([^\\s\\)]*)/' \"$INIT_CWD/CMakeLists.txt\"",
     "cmake": "cmake -G Ninja -B .build -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE",
     "write_tests": "cd \"$INIT_CWD\" ; awk 'BEGIN{n=1;fn=sprintf(\"%d_test.txt\",n)}$0==\"---\"{n++;fn=sprintf(\"%d_test.txt\",n);next}{print > fn}' test_cases.txt",
     "to_npm": "jq '{name:\"cplus-plus-commands\", scripts:(.tasks|with_entries(.value=.value.command))}' deno.json > package.json"
